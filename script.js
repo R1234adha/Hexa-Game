@@ -92,11 +92,6 @@ function checkForWinner() {
     alert(`🏆 Player ${winner} (${playerSymbols[winner]}) wins the game!`);
     turnText.textContent = `Winner: Player ${winner} (${playerSymbols[winner]})`;
   }
-  // Reset the game
-    setTimeout(() => {
-      resetGame(); // Reset the game state after the winner is announced
-    }, 2000);
-}
 
 function updateTurnText() {
   turnText.textContent = `Current Turn: Player ${currentPlayer} (${playerSymbols[currentPlayer]})`;
