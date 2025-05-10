@@ -5,18 +5,40 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #35343b;
+  background-color: #9e93d8;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  border: 5px solid #ffffff;  /* White frame around the whole page */
+  box-sizing: border-box;  /* Include border in the total width and height */
+  border-radius: 15px;  /* Optional rounded corners */
 }
+
+h1 {
+  color: #ffffff; /* White color for the heading */
+  font-size: 2.5em; /* Adjust the font size */
+  margin-bottom: 20px; /* Space below the heading */
+}
+
+.container {
+  border: 5px solid #ffffff; /* Frame around the whole content */
+  padding: 20px;
+  border-radius: 15px; /* Optional rounded corners */
+  background-color: #35343b; /* Optional background color for the container */
+}
+
 
 /* Controls Section */
 #controls {
   margin-bottom: 20px;
   font-size: 1.2em;
   font-weight: bold;
+  color:#ffffff;
+  border: 2px solid #ffffff; /* Frame around the controls */
+  padding: 10px;
+  border-radius: 8px; /* Optional rounded corners */
+  background-color: #453b74; /* Optional background color for the frame */
 }
 
 /* Hex Grid Container */
@@ -25,6 +47,10 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 5px;
+  border: 3px solid #ffffff; /* Frame around the hex grid */
+  padding: 10px;
+  border-radius: 10px; /* Optional rounded corners */
+  background-color: #453b74; /* Optional background color for the frame */
 }
 
 /* Each Row of Hexagons */
@@ -42,7 +68,13 @@ body {
   margin: 17.32px 0;
   position: relative;
   cursor: pointer;
-  transition: background- color 0.3s ease;
+  display: flex;
+  align-items: center; /* Centers text vertically */
+  justify-content: center; /* Centers text horizontally */
+  font-size: 1.2em; /* Adjust text size */
+  font-weight: bold; /* Make the symbol bold */
+  transition: background-color 0.3s ease;
+  text-align: center;
 }
 
 /* Create the top and bottom triangles */
