@@ -1,0 +1,117 @@
+
+/* styles.css */
+
+/* Basic Reset */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #35343b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Controls Section */
+#controls {
+  margin-bottom: 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+/* Hex Grid Container */
+#hexGrid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Each Row of Hexagons */
+.hex-row {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}
+
+/* Hexagon Shape */
+.hexagon {
+  width: 60px;
+  height: 34.64px;
+  background-color: #1f224d;
+  margin: 17.32px 0;
+  position: relative;
+  cursor: pointer;
+  transition: background- color 0.3s ease;
+}
+
+/* Create the top and bottom triangles */
+.hexagon::before,
+.hexagon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 0;
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+}
+
+.hexagon::before {
+  bottom: 100%;
+  border-bottom: 17.32px solid #1f224d;
+}
+
+.hexagon::after {
+  top: 100%;
+  border-top: 17.32px solid ;
+}
+
+/* Hover Effect */
+.hexagon:hover {
+  background-color: #b4b7e0;
+}
+
+.hexagon:hover::before {
+  border-bottom-color: #b4b7e0;
+}
+
+.hexagon:hover::after {
+  border-top-color: #b4b7e0;
+}
+
+/* Player Colors */
+.player1 {
+  background-color: #96bbe3;
+}
+
+.player1::before {
+  border-bottom-color: #96bbe3;
+}
+
+.player1::after {
+  border-top-color: #96bbe3;
+}
+
+.player2 {
+  background-color: #b8e6c2;
+}
+
+.player2::before {
+  border-bottom-color: #b8e6c2;
+}
+
+.player2::after {
+  border-top-color: #b8e6c2;
+}
+
+.player3 {
+  background-color: #ebd8a2;
+}
+
+.player3::before {
+  border-bottom-color: #ebd8a2;
+}
+
+.player3::after {
+  border-top-color: #ebd8a2;
+}
