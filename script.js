@@ -92,6 +92,7 @@ function checkForWinner() {
     alert(`🏆 Player ${winner} (${playerSymbols[winner]}) wins the game!`);
     turnText.textContent = `Winner: Player ${winner} (${playerSymbols[winner]})`;
   }
+}
 
 function updateTurnText() {
   turnText.textContent = `Current Turn: Player ${currentPlayer} (${playerSymbols[currentPlayer]})`;
