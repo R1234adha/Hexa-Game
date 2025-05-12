@@ -95,7 +95,8 @@ function checkForWinner() {
 }
 
 function updateTurnText() {
-  turnText.textContent = `Current Turn: Player ${currentPlayer} (${playerSymbols[currentPlayer]})`;
+  const player = playerSymbols[currentPlayer];
+  turnText.innerHTML = `Current Turn: <span style="color: ${player.color}; font-weight: bold;">Player ${currentPlayer} (${player.symbol})</span>`;
 }
 
 function isAdjacentToPlayer(index, player) {
