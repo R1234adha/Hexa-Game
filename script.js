@@ -22,20 +22,17 @@ const playerHexes = {
   3: []
 };
 
-updateTurnText(); // show first turn
+updateTurnText();
 
 hexagons.forEach((hex, index) => {
   hex.setAttribute("data-index", index);
 
   hex.addEventListener("click", () => {
     if (hex.classList.contains("taken")) return;
-
-    // If current player was already eliminated (shouldn't happen but safe)
     if (!activePlayers.includes(currentPlayer)) return;
 
-    // If no valid move, don't allow click
     if (!hasAvailableAdjacentHex(currentPlayer)) {
-      alert(`Player ${currentPlayer} (${playerSymbols[currentPlayer]}) is out of the game!`);
+      alert(`Player ${currentPlayer} (${playerSymbols[currentPlayer].symbol}) is out of the game!`);
       activePlayers = activePlayers.filter(p => p !== currentPlayer);
       checkForWinner();
       nextTurn();
@@ -43,7 +40,6 @@ hexagons.forEach((hex, index) => {
     }
 
     const index = parseInt(hex.getAttribute("data-index"));
-
     if (playerHexes[currentPlayer].length === 0 || isAdjacentToPlayer(index, currentPlayer)) {
       claimHex(hex, index);
     } else {
@@ -54,23 +50,20 @@ hexagons.forEach((hex, index) => {
 
 function claimHex(hex, index) {
   hex.classList.add("taken", playerClasses[currentPlayer]);
-  hex.textContent = playerSymbols[currentPlayer].symbol; // Display the symbol (e.g., "LB")
-  hex.style.backgroundColor = playerSymbols[currentPlayer].color; // Set background color for the player
+  hex.textContent = playerSymbols[currentPlayer].symbol;
+  hex.style.backgroundColor = playerSymbols[currentPlayer].color;
   playerHexes[currentPlayer].push(index);
   nextTurn();
 }
 
 function nextTurn() {
-  if (activePlayers.length === 1) {
-    return; // game already won
-  }
+  if (activePlayers.length === 1) return;
 
   let nextIndex = (activePlayers.indexOf(currentPlayer) + 1) % activePlayers.length;
   let nextPlayer = activePlayers[nextIndex];
 
-  // Skip players who have no moves
   while (!hasAvailableAdjacentHex(nextPlayer)) {
-    alert(`Player ${nextPlayer} (${playerSymbols[nextPlayer]}) is out of the game!`);
+    alert(`Player ${nextPlayer} (${playerSymbols[nextPlayer].symbol}) is out of the game!`);
     activePlayers = activePlayers.filter(p => p !== nextPlayer);
 
     if (activePlayers.length === 1) {
@@ -89,9 +82,35 @@ function nextTurn() {
 function checkForWinner() {
   if (activePlayers.length === 1) {
     const winner = activePlayers[0];
-    alert(`🏆 Player ${winner} (${playerSymbols[winner]}) wins the game!`);
-    turnText.textContent = `Winner: Player ${winner} (${playerSymbols[winner]})`;
+    const player = playerSymbols[winner];
+    alert(`🏆 Player ${winner} (${player.symbol}) wins the game!`);
+
+    document.getElementById("winnerMessage").innerHTML =
+      `🏆 <span style="color: ${player.color}; font-weight: bold;">Player ${winner} (${player.symbol})</span> wins the game!`;
+
+    document.getElementById("gameOverScreen").style.display = "block";
+    turnText.style.display = "none";
   }
+}
+
+function restartGame() {
+  currentPlayer = 1;
+  activePlayers = [1, 2, 3];
+
+  playerHexes[1] = [];
+  playerHexes[2] = [];
+  playerHexes[3] = [];
+
+  hexagons.forEach(hex => {
+    hex.classList.remove("taken", "player1", "player2", "player3");
+    hex.textContent = "";
+    hex.style.backgroundColor = "";
+  });
+
+  document.getElementById("gameOverScreen").style.display = "none";
+  turnText.style.display = "block";
+
+  updateTurnText();
 }
 
 function updateTurnText() {
@@ -104,7 +123,7 @@ function isAdjacentToPlayer(index, player) {
 }
 
 function hasAvailableAdjacentHex(player) {
-  if (playerHexes[player].length === 0) return true; // first move allowed anywhere
+  if (playerHexes[player].length === 0) return true;
   return playerHexes[player].some(index => {
     return getAdjacentIndexes(index).some(n => !hexagons[n].classList.contains("taken"));
   });
@@ -134,16 +153,17 @@ function getAdjacentIndexes(index) {
   };
 
   const directions = [
-    [0, -1], [0, 1], [-1, -1], [-1, 0], [1, -1], [1, 0]
+    [0, -1],    // left
+    [0, 1],     // right
+    [1, -1]     // bottom-left only
   ];
 
   for (const [dr, dc] of directions) {
     let r = row + dr;
     let c = col + dc;
 
-    if ((rowMap[row] % 2 === 0) && dr !== 0) {
-      if (dr === -1 && dc === -1) c = col - 1;
-      if (dr === 1 && dc === -1) c = col - 1;
+    if ((rowMap[row] % 2 === 0) && dr === 1 && dc === -1) {
+      c = col - 1;
     }
 
     const adjIndex = getIndex(r, c);
@@ -152,6 +172,5 @@ function getAdjacentIndexes(index) {
     }
   }
 
-  return adjacents; 
-
+  return adjacents;
 }
