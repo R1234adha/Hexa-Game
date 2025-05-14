@@ -90,6 +90,9 @@ function checkForWinner() {
 
     document.getElementById("gameOverScreen").style.display = "block";
     turnText.style.display = "none";
+
+    // Disable hex grid interaction
+    document.getElementById("hexGrid").classList.add("disabled-grid");
   }
 }
 
@@ -109,6 +112,9 @@ function restartGame() {
 
   document.getElementById("gameOverScreen").style.display = "none";
   turnText.style.display = "block";
+
+  // Enable hex grid interaction
+  document.getElementById("hexGrid").classList.remove("disabled-grid");
 
   updateTurnText();
 }

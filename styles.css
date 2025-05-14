@@ -9,7 +9,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 75px;
   border: 5px solid #ffffff;  /* White frame around the whole page */
   box-sizing: border-box;  /* Include border in the total width and height */
   border-radius: 15px;  /* Optional rounded corners */
@@ -48,9 +48,15 @@ h1 {
   align-items: center;
   gap: 5px;
   border: 3px solid #ffffff; /* Frame around the hex grid */
-  padding: 10px;
+  padding: 20px;
   border-radius: 10px; /* Optional rounded corners */
   background-color: #453b74; /* Optional background color for the frame */
+  transition: opacity 0.3s ease;
+}
+
+.disabled-grid {
+  pointer-events: none;
+  opacity: 0.6; /* Optional visual cue */
 }
 
 /* Each Row of Hexagons */
