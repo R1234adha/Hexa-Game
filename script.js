@@ -83,7 +83,7 @@ function checkForWinner() {
   if (activePlayers.length === 1) {
     const winner = activePlayers[0];
     const player = playerSymbols[winner];
-    alert(`🏆 Player ${winner} (${player.symbol}) wins the game!`);
+    //alert(`🏆 Player ${winner} (${player.symbol}) wins the game!`);
 
     document.getElementById("winnerMessage").innerHTML =
       `🏆 <span style="color: ${player.color}; font-weight: bold;">Player ${winner} (${player.symbol})</span> wins the game!`;
@@ -93,6 +93,10 @@ function checkForWinner() {
 
     // Disable hex grid interaction
     document.getElementById("hexGrid").classList.add("disabled-grid");
+
+    
+    // // 🔴 Hide controls
+    // document.getElementById("controls").style.display = "none";
   }
 }
 
@@ -115,6 +119,9 @@ function restartGame() {
 
   // Enable hex grid interaction
   document.getElementById("hexGrid").classList.remove("disabled-grid");
+
+  //  // 🟢 Show controls again
+  // document.getElementById("controls").style.display = "block";
 
   updateTurnText();
 }

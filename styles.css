@@ -156,21 +156,21 @@ h1 {
 
 
 #gameOverScreen {
-  background-color:  #453b74;
-  padding: 30px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #1f224d;
+  color: white;
+  padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 8px 20px rgba(19, 32, 206, 0.15);
-  max-width: 400px;
-  margin: 40px auto;
   text-align: center;
-  border: 3px solid #ffffff; 
-  padding: 10px;
-  border-radius: 8px;
+  z-index: 100;
 }
 
-#gameOverScreen h2 {
-  color: #1f224d;
-  margin-bottom: 20px;
+#gameOverScreen h3 {
+  color: #a5a7c7;
+  margin-bottom: 10px;
 }
 
 #gameOverScreen button {
