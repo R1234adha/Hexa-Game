@@ -165,20 +165,21 @@ function getAdjacentIndexes(index) {
     return rowStartIndexes[r] + c;
   };
 
+    const evenRow = row % 2 === 0;
+
+   // 6 directions: [dr, dc_even, dc_odd]
   const directions = [
-    [0, -1],    // left
-    [0, 1],     // right
-    [1, -1]     // bottom-left only
+    [-1, 0, -1],  // top-left
+    [-1, 1, 0],   // top-right
+    [0, -1, -1],  // left
+    [0, 1, 1],    // right
+    [1, 0, -1],   // bottom-left
+    [1, 1, 0]     // bottom-right
   ];
 
-  for (const [dr, dc] of directions) {
-    let r = row + dr;
-    let c = col + dc;
-
-    if ((rowMap[row] % 2 === 0) && dr === 1 && dc === -1) {
-      c = col - 1;
-    }
-
+ for (const [dr, dcEven, dcOdd] of directions) {
+    const r = row + dr;
+    const c = col + (evenRow ? dcEven : dcOdd);
     const adjIndex = getIndex(r, c);
     if (adjIndex !== null) {
       adjacents.push(adjIndex);
