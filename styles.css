@@ -199,25 +199,10 @@ h1 {
 
 /* below new code */
 
-/* Outer page container */
-#setupPage, #gamePage {
-  margin: 0 auto;
-  max-width: 500px; 
-  font-family: Arial, sans-serif;
-  background-color: #9e93d8;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px;
-  border: 5px solid #ffffff;
-  box-sizing: border-box;
-  border-radius: 15px;
-}
-
 /* Inner card area */
 #setupPage > div {
   background-color: #453b74;
-  padding: 30px;
+  padding: 10px;
   border-radius: 10px;
   width: 100%;
   text-align: center;
