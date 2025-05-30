@@ -194,3 +194,67 @@ h1 {
   background-color: #b4b7e0;
   transform: scale(0.98);
 }
+
+
+
+/* below new code */
+
+/* Outer page container */
+#setupPage, #gamePage {
+  margin: 0 auto;
+  max-width: 500px; 
+  font-family: Arial, sans-serif;
+  background-color: #9e93d8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  border: 5px solid #ffffff;
+  box-sizing: border-box;
+  border-radius: 15px;
+}
+
+/* Inner card area */
+#setupPage > div {
+  background-color: #453b74;
+  padding: 30px;
+  border-radius: 10px;
+  width: 100%;
+  text-align: center;
+}
+
+#setupPage h1 {
+  color: white;
+  margin-bottom: 20px;
+}
+
+#setupPage p {
+  color: white;
+  margin-bottom: 10px;
+}
+
+/* Inputs */
+#playerInputs input {
+  display: block;
+  margin: 5px auto;
+  padding: 8px;
+  width: 80%;
+  border-radius: 5px;
+  border: none;
+}
+
+/* Buttons */
+#generateLinkBtn, #startGameBtn {
+  background: #1f224d;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 15px;
+  border: 2px solid #ffffff;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+#generateLinkBtn:hover, #startGameBtn:hover {
+  background: #2e3170;
+}
+

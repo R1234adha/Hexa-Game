@@ -4,6 +4,15 @@ const turnText = document.getElementById("turnText");
 let currentPlayer = 1;
 let activePlayers = [1, 2, 3];
 
+//below new code
+let gameCode = "";
+let playerNames = {
+  1: "",
+  2: "",
+  3: ""
+};
+//above new code
+
 const playerClasses = {
   1: "player1",
   2: "player2",
@@ -21,6 +30,37 @@ const playerHexes = {
   2: [],
   3: []
 };
+
+//below new code
+
+document.getElementById("generateLinkBtn").addEventListener("click", () => {
+  gameCode = generateUniqueCode();
+  document.getElementById("gameCodeDisplay").textContent = `Game Code: ${gameCode}`;
+  document.getElementById("playerInputs").style.display = "block";
+});
+
+document.getElementById("startGameBtn").addEventListener("click", () => {
+  playerNames[1] = document.getElementById("player1Name").value.trim() || "P1";
+  playerNames[2] = document.getElementById("player2Name").value.trim() || "P2";
+  playerNames[3] = document.getElementById("player3Name").value.trim() || "P3";
+
+  // Update playerSymbols with first 2 letters
+  playerSymbols[1].symbol = playerNames[1].substring(0, 2).toUpperCase();
+  playerSymbols[2].symbol = playerNames[2].substring(0, 2).toUpperCase();
+  playerSymbols[3].symbol = playerNames[3].substring(0, 2).toUpperCase();
+
+  // Hide setup, show game
+  document.getElementById("setupPage").style.display = "none";
+  document.getElementById("gamePage").style.display = "block";
+
+  updateTurnText();
+});
+
+function generateUniqueCode() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
+
+//above new code
 
 updateTurnText();
 
