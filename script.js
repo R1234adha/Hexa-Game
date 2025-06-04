@@ -4,14 +4,12 @@ const turnText = document.getElementById("turnText");
 let currentPlayer = 1;
 let activePlayers = [1, 2, 3];
 
-//below new code
 let gameCode = "";
 let playerNames = {
   1: "",
   2: "",
   3: ""
 };
-//above new code
 
 const playerClasses = {
   1: "player1",
@@ -31,8 +29,6 @@ const playerHexes = {
   3: []
 };
 
-//below new code
-
 document.getElementById("generateLinkBtn").addEventListener("click", () => {
   gameCode = generateUniqueCode();
   document.getElementById("gameCodeDisplay").textContent = `Game Code: ${gameCode}`;
@@ -40,9 +36,18 @@ document.getElementById("generateLinkBtn").addEventListener("click", () => {
 });
 
 document.getElementById("startGameBtn").addEventListener("click", () => {
-  playerNames[1] = document.getElementById("player1Name").value.trim() || "P1";
-  playerNames[2] = document.getElementById("player2Name").value.trim() || "P2";
-  playerNames[3] = document.getElementById("player3Name").value.trim() || "P3";
+  const p1 = document.getElementById("player1Name").value.trim();
+  const p2 = document.getElementById("player2Name").value.trim();
+  const p3 = document.getElementById("player3Name").value.trim();
+
+  if (!p1 || !p2 || !p3) {
+    alert("Please fill in all three player names before starting the game.");
+    return;
+  }
+
+  playerNames[1] = p1;
+  playerNames[2] = p2;
+  playerNames[3] = p3;
 
   // Update playerSymbols with first 2 letters
   playerSymbols[1].symbol = playerNames[1].substring(0, 2).toUpperCase();
@@ -59,8 +64,6 @@ document.getElementById("startGameBtn").addEventListener("click", () => {
 function generateUniqueCode() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
-
-//above new code
 
 updateTurnText();
 
@@ -123,7 +126,6 @@ function checkForWinner() {
   if (activePlayers.length === 1) {
     const winner = activePlayers[0];
     const player = playerSymbols[winner];
-    //alert(`🏆 Player ${winner} (${player.symbol}) wins the game!`);
 
     document.getElementById("winnerMessage").innerHTML =
       `🏆 <span style="color: ${player.color}; font-weight: bold;">Player ${winner} (${player.symbol})</span> wins the game!`;
@@ -131,12 +133,21 @@ function checkForWinner() {
     document.getElementById("gameOverScreen").style.display = "block";
     turnText.style.display = "none";
 
-    // Disable hex grid interaction
     document.getElementById("hexGrid").classList.add("disabled-grid");
 
-    
-    // // 🔴 Hide controls
-    // document.getElementById("controls").style.display = "none";
+    // Automatically return to main page after 5 seconds
+    setTimeout(() => {
+      document.getElementById("gameOverScreen").style.display = "none";
+      document.getElementById("setupPage").style.display = "block";
+      document.getElementById("gamePage").style.display = "none";
+
+      // Clear player name inputs
+      document.getElementById("player1Name").value = "";
+      document.getElementById("player2Name").value = "";
+      document.getElementById("player3Name").value = "";
+
+      restartGame();  // Reset game state
+    }, 5000);
   }
 }
 
@@ -157,11 +168,7 @@ function restartGame() {
   document.getElementById("gameOverScreen").style.display = "none";
   turnText.style.display = "block";
 
-  // Enable hex grid interaction
   document.getElementById("hexGrid").classList.remove("disabled-grid");
-
-  //  // 🟢 Show controls again
-  // document.getElementById("controls").style.display = "block";
 
   updateTurnText();
 }
@@ -205,9 +212,8 @@ function getAdjacentIndexes(index) {
     return rowStartIndexes[r] + c;
   };
 
-    const evenRow = row % 2 === 0;
+  const evenRow = row % 2 === 0;
 
-   // 6 directions: [dr, dc_even, dc_odd]
   const directions = [
     [-1, 0, -1],  // top-left
     [-1, 1, 0],   // top-right
@@ -217,7 +223,7 @@ function getAdjacentIndexes(index) {
     [1, 1, 0]     // bottom-right
   ];
 
- for (const [dr, dcEven, dcOdd] of directions) {
+  for (const [dr, dcEven, dcOdd] of directions) {
     const r = row + dr;
     const c = col + (evenRow ? dcEven : dcOdd);
     const adjIndex = getIndex(r, c);
@@ -227,4 +233,20 @@ function getAdjacentIndexes(index) {
   }
 
   return adjacents;
+
+  // Always reset to setup page on page load
+window.addEventListener("load", () => {
+  document.getElementById("setupPage").style.display = "block";
+  document.getElementById("gamePage").style.display = "none";
+  document.getElementById("gameOverScreen").style.display = "none";
+
+  // Clear all player names
+  document.getElementById("player1Name").value = "";
+  document.getElementById("player2Name").value = "";
+  document.getElementById("player3Name").value = "";
+
+  // Reset game state
+  restartGame();
+});
+
 }
