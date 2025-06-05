@@ -134,20 +134,20 @@ function checkForWinner() {
     turnText.style.display = "none";
 
     document.getElementById("hexGrid").classList.add("disabled-grid");
-
-    // Automatically return to main page after 5 seconds
+   
+    // Reset game state 
+    // Automatically return to main page after 2 seconds
     setTimeout(() => {
-      document.getElementById("gameOverScreen").style.display = "none";
-      document.getElementById("setupPage").style.display = "block";
-      document.getElementById("gamePage").style.display = "none";
+        document.getElementById("gameOverScreen").style.display = "none";
+        document.getElementById("setupPage").style.display = "block";
+        document.getElementById("gamePage").style.display = "none";
 
-      // Clear player name inputs
-      document.getElementById("player1Name").value = "";
-      document.getElementById("player2Name").value = "";
-      document.getElementById("player3Name").value = "";
+        document.getElementById("player1Name").value = "";
+        document.getElementById("player2Name").value = "";
+        document.getElementById("player3Name").value = "";
 
-      restartGame();  // Reset game state
-    }, 5000);
+        restartGame();  // Reset game state
+    }, 4000);    
   }
 }
 
@@ -233,20 +233,8 @@ function getAdjacentIndexes(index) {
   }
 
   return adjacents;
-
-  // Always reset to setup page on page load
-window.addEventListener("load", () => {
-  document.getElementById("setupPage").style.display = "block";
-  document.getElementById("gamePage").style.display = "none";
-  document.getElementById("gameOverScreen").style.display = "none";
-
-  // Clear all player names
-  document.getElementById("player1Name").value = "";
-  document.getElementById("player2Name").value = "";
-  document.getElementById("player3Name").value = "";
-
-  // Reset game state
-  restartGame();
-});
-
 }
+
+
+
+
