@@ -233,7 +233,31 @@ function getAdjacentIndexes(index) {
   }
 
   return adjacents;
+  
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "F5" || e.keyCode === 116) e.preventDefault();
+    if ((e.ctrlKey || e.metaKey) && e.key === "r") e.preventDefault();
+  });
+});
+
+document.addEventListener("keydown", function (e) {
+  
+  
+  // Block F5 (keyCode 116)
+  if (e.key === "F5" || e.keyCode === 116) {
+    e.preventDefault();
+    console.log("F5 refresh blocked");
+  }
+
+  // Block Ctrl+R
+  if ((e.ctrlKey || e.metaKey) && e.key === "r") {
+    e.preventDefault();
+    console.log("Ctrl+R refresh blocked");
+  }
+});
 
 
 
