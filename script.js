@@ -18,9 +18,9 @@ const playerClasses = {
 };
 
 const playerSymbols = {
-  1: { symbol: "LB", color: "#96bbe3" }, // Light Blue
-  2: { symbol: "LG", color: "#b8e6c2" }, // Light Green
-  3: { symbol: "LO", color: "#ebd8a2" }  // Light Yellow
+  1: { symbol: "LB", color: "#96bbe3" },
+  2: { symbol: "LG", color: "#b8e6c2" },
+  3: { symbol: "LO", color: "#ebd8a2" }
 };
 
 const playerHexes = {
@@ -28,6 +28,18 @@ const playerHexes = {
   2: [],
   3: []
 };
+
+function saveGameState() {
+  const state = {
+    currentPlayer,
+    activePlayers,
+    playerNames,
+    playerHexes,
+    gameCode,
+    gameStarted: document.getElementById("gamePage").style.display === "block"
+  };
+  sessionStorage.setItem("hexGameState", JSON.stringify(state));
+}
 
 document.getElementById("generateLinkBtn").addEventListener("click", () => {
   gameCode = generateUniqueCode();
@@ -49,23 +61,20 @@ document.getElementById("startGameBtn").addEventListener("click", () => {
   playerNames[2] = p2;
   playerNames[3] = p3;
 
-  // Update playerSymbols with first 2 letters
   playerSymbols[1].symbol = playerNames[1].substring(0, 2).toUpperCase();
   playerSymbols[2].symbol = playerNames[2].substring(0, 2).toUpperCase();
   playerSymbols[3].symbol = playerNames[3].substring(0, 2).toUpperCase();
 
-  // Hide setup, show game
   document.getElementById("setupPage").style.display = "none";
   document.getElementById("gamePage").style.display = "block";
 
   updateTurnText();
+  saveGameState();
 });
 
 function generateUniqueCode() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
-
-updateTurnText();
 
 hexagons.forEach((hex, index) => {
   hex.setAttribute("data-index", index);
@@ -96,6 +105,7 @@ function claimHex(hex, index) {
   hex.textContent = playerSymbols[currentPlayer].symbol;
   hex.style.backgroundColor = playerSymbols[currentPlayer].color;
   playerHexes[currentPlayer].push(index);
+  saveGameState();
   nextTurn();
 }
 
@@ -120,6 +130,7 @@ function nextTurn() {
 
   currentPlayer = nextPlayer;
   updateTurnText();
+  saveGameState();
 }
 
 function checkForWinner() {
@@ -134,20 +145,20 @@ function checkForWinner() {
     turnText.style.display = "none";
 
     document.getElementById("hexGrid").classList.add("disabled-grid");
-   
-    // Reset game state 
-    // Automatically return to main page after 2 seconds
+
+    sessionStorage.removeItem("hexGameState");
+
     setTimeout(() => {
-        document.getElementById("gameOverScreen").style.display = "none";
-        document.getElementById("setupPage").style.display = "block";
-        document.getElementById("gamePage").style.display = "none";
+      document.getElementById("gameOverScreen").style.display = "none";
+      document.getElementById("setupPage").style.display = "block";
+      document.getElementById("gamePage").style.display = "none";
 
-        document.getElementById("player1Name").value = "";
-        document.getElementById("player2Name").value = "";
-        document.getElementById("player3Name").value = "";
+      document.getElementById("player1Name").value = "";
+      document.getElementById("player2Name").value = "";
+      document.getElementById("player3Name").value = "";
 
-        restartGame();  // Reset game state
-    }, 4000);    
+      restartGame();
+    }, 4000);
   }
 }
 
@@ -167,7 +178,6 @@ function restartGame() {
 
   document.getElementById("gameOverScreen").style.display = "none";
   turnText.style.display = "block";
-
   document.getElementById("hexGrid").classList.remove("disabled-grid");
 
   updateTurnText();
@@ -215,12 +225,12 @@ function getAdjacentIndexes(index) {
   const evenRow = row % 2 === 0;
 
   const directions = [
-    [-1, 0, -1],  // top-left
-    [-1, 1, 0],   // top-right
-    [0, -1, -1],  // left
-    [0, 1, 1],    // right
-    [1, 0, -1],   // bottom-left
-    [1, 1, 0]     // bottom-right
+    [-1, 0, -1],
+    [-1, 1, 0],
+    [0, -1, -1],
+    [0, 1, 1],
+    [1, 0, -1],
+    [1, 1, 0]
   ];
 
   for (const [dr, dcEven, dcOdd] of directions) {
@@ -233,8 +243,47 @@ function getAdjacentIndexes(index) {
   }
 
   return adjacents;
-  
 }
+
+// Restore state on load
+window.addEventListener("load", () => {
+  const savedState = sessionStorage.getItem("hexGameState");
+  if (!savedState) return;
+
+  const state = JSON.parse(savedState);
+  currentPlayer = state.currentPlayer;
+  activePlayers = state.activePlayers;
+  playerNames = state.playerNames;
+  playerHexes[1] = state.playerHexes[1];
+  playerHexes[2] = state.playerHexes[2];
+  playerHexes[3] = state.playerHexes[3];
+  gameCode = state.gameCode;
+
+  playerSymbols[1].symbol = playerNames[1].substring(0, 2).toUpperCase();
+  playerSymbols[2].symbol = playerNames[2].substring(0, 2).toUpperCase();
+  playerSymbols[3].symbol = playerNames[3].substring(0, 2).toUpperCase();
+
+  document.getElementById("player1Name").value = playerNames[1];
+  document.getElementById("player2Name").value = playerNames[2];
+  document.getElementById("player3Name").value = playerNames[3];
+
+  if (state.gameStarted) {
+    document.getElementById("setupPage").style.display = "none";
+    document.getElementById("gamePage").style.display = "block";
+  }
+
+  hexagons.forEach((hex, index) => {
+    for (let player = 1; player <= 3; player++) {
+      if (playerHexes[player].includes(index)) {
+        hex.classList.add("taken", playerClasses[player]);
+        hex.textContent = playerSymbols[player].symbol;
+        hex.style.backgroundColor = playerSymbols[player].color;
+      }
+    }
+  });
+
+  updateTurnText();
+});
 
 document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("keydown", function (e) {
@@ -242,23 +291,3 @@ document.addEventListener("DOMContentLoaded", () => {
     if ((e.ctrlKey || e.metaKey) && e.key === "r") e.preventDefault();
   });
 });
-
-document.addEventListener("keydown", function (e) {
-  
-  
-  // Block F5 (keyCode 116)
-  if (e.key === "F5" || e.keyCode === 116) {
-    e.preventDefault();
-    console.log("F5 refresh blocked");
-  }
-
-  // Block Ctrl+R
-  if ((e.ctrlKey || e.metaKey) && e.key === "r") {
-    e.preventDefault();
-    console.log("Ctrl+R refresh blocked");
-  }
-});
-
-
-
-
