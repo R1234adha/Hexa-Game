@@ -1,0 +1,8 @@
+fetch('/get-games')
+  .then(response => response.json())
+  .then(games => {
+    games.forEach(game => {
+      console.log(game.code, game.name, game.winner);
+      // Use DOM to append to HTML table if needed
+    });
+  });
