@@ -291,3 +291,25 @@ document.addEventListener("DOMContentLoaded", () => {
     if ((e.ctrlKey || e.metaKey) && e.key === "r") e.preventDefault();
   });
 });
+
+
+//MongoDB connection
+
+const data = {
+  code: 'ABC123',
+  name: 'Player1',
+  winner: 'Win'
+};
+
+fetch('/save-game', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(data)
+})
+  .then(res => res.json())
+  .then(response => {
+    console.log('Saved:', response);
+  });
+
