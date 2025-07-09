@@ -29,6 +29,16 @@ body {
   text-align: center;
 }
 
+
+.inner-container {
+  background-color: #453b74;
+  border: 2px solid #ffffff;
+  padding: 50px;
+  border-radius: 15px;
+  box-sizing: border-box;
+  margin-top: 20px;
+}
+
 h1, h2, h3, p {
   color: white;
   margin-bottom: 10px; 
