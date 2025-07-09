@@ -138,12 +138,17 @@ function checkForWinner() {
     const winner = activePlayers[0];
     const player = playerSymbols[winner];
 
+    // Save the winner and game info to localStorage
+    const player1 = playerNames[1];
+    const player2 = playerNames[2];
+    const player3 = playerNames[3];
+    saveToLocalStorage(gameCode, player1, player2, player3, playerNames[winner]);
+
     document.getElementById("winnerMessage").innerHTML =
       `🏆 <span style="color: ${player.color}; font-weight: bold;">Player ${winner} (${player.symbol})</span> wins the game!`;
 
     document.getElementById("gameOverScreen").style.display = "block";
     turnText.style.display = "none";
-
     document.getElementById("hexGrid").classList.add("disabled-grid");
 
     sessionStorage.removeItem("hexGameState");
@@ -161,6 +166,7 @@ function checkForWinner() {
     }, 4000);
   }
 }
+
 
 function restartGame() {
   currentPlayer = 1;
@@ -295,21 +301,106 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //MongoDB connection
 
-const data = {
-  code: 'ABC123',
-  name: 'Player1',
-  winner: 'Win'
-};
+// const data = {
+//   code: 'ABC123',
+//   name: 'Player1',
+//   winner: 'Win'
+// };
 
-fetch('/save-game', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify(data)
-})
-  .then(res => res.json())
-  .then(response => {
-    console.log('Saved:', response);
+// fetch('/save-game', {
+//   method: 'POST',
+//   headers: {
+//     'Content-Type': 'application/json'
+//   },
+//   body: JSON.stringify(data)
+// })
+//   .then(res => res.json())
+//   .then(response => {
+//     console.log('Saved:', response);
+//   });
+
+  
+  //live table
+
+  function saveToLocalStorage(gameId, player1, player2, player3, winner) {
+  const gameData = JSON.parse(localStorage.getItem("games")) || [];
+  gameData.push({ gameId, player1, player2, player3, winner });
+  localStorage.setItem("games", JSON.stringify(gameData));
+}
+
+function loadGamesFromLocalStorage() {
+  const games = JSON.parse(localStorage.getItem("games")) || [];
+  const tableBody = document.querySelector('#resultsTable tbody');
+  tableBody.innerHTML = '';
+
+  games.forEach(game => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${game.gameId}</td>
+      <td>${game.player1}</td>
+      <td>${game.player2}</td>
+      <td>${game.player3}</td>
+      <td>${game.winner}</td>
+    `;
+    tableBody.appendChild(row);
   });
+}
+
+//pagination
+let currentPage = 1;
+const rowsPerPage = 3;
+
+function loadGames() {
+  const games = JSON.parse(localStorage.getItem("games")) || [];
+  displayPage(games, currentPage);
+}
+
+function displayPage(games, page) {
+  const tableBody = document.querySelector('#resultsTable tbody');
+  tableBody.innerHTML = '';
+
+  const start = (page - 1) * rowsPerPage;
+  const end = start + rowsPerPage;
+  const pageGames = games.slice(start, end);
+
+  pageGames.forEach(game => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${game.gameId}</td>
+      <td>${game.player1}</td>
+      <td>${game.player2}</td>
+      <td>${game.player3}</td>
+      <td>${game.winner}</td>
+    `;
+    tableBody.appendChild(row);
+  });
+
+  const pageInfo = document.getElementById("pageInfo");
+  const totalPages = Math.ceil(games.length / rowsPerPage);
+  pageInfo.textContent = `Page ${page} of ${totalPages}`;
+
+  // Disable buttons if needed
+  document.querySelector('#paginationControls button:first-child').disabled = page === 1;
+  document.querySelector('#paginationControls button:last-child').disabled = page === totalPages;
+}
+
+function prevPage() {
+  if (currentPage > 1) {
+    currentPage--;
+    loadGames();
+  }
+}
+
+function nextPage() {
+  const games = JSON.parse(localStorage.getItem("games")) || [];
+  const totalPages = Math.ceil(games.length / rowsPerPage);
+  if (currentPage < totalPages) {
+    currentPage++;
+    loadGames();
+  }
+}
+
+
+loadGamesFromLocalStorage();
+
 

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Game History</title>
+  <style>
+    body {
+      background-color: #a694d9;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 90%;
+      margin: 40px auto;
+      background-color: transparent;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #4b3b73;
+      margin-bottom: 30px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    thead {
+      background-color: #4b3b73;
+      color: white;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #a694d9;
+    }
+
+    #paginationControls {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    #paginationControls button {
+      padding: 8px 12px;
+      background-color: #4b3b73;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+
+    #paginationControls button:disabled {
+      background-color: #999;
+      cursor: not-allowed;
+    }
+
+    #pageInfo {
+      font-weight: bold;
+      color: #4b3b73;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Hexagonal Game History</h1>
+    <table id="resultsTable">
+      <thead>
+        <tr>
+          <th>Game ID</th>
+          <th>Player 1</th>
+          <th>Player 2</th>
+          <th>Player 3</th>
+          <th>Winner</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <!-- Pagination controls -->
+    <div id="paginationControls">
+      <button onclick="prevPage()" id="prevBtn">Previous</button>
+      <span id="pageInfo">Page 1</span>
+      <button onclick="nextPage()" id="nextBtn">Next</button>
+    </div>
+  </div>
+
+  <script>
+    const rowsPerPage = 10;
+    let currentPage = 1;
+    let games = [];
+
+    function loadGames() {
+      games = JSON.parse(localStorage.getItem("games")) || [];
+      displayPage(currentPage);
+    }
+
+    function displayPage(page) {
+      const tableBody = document.querySelector('#resultsTable tbody');
+      tableBody.innerHTML = '';
+
+      const start = (page - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+      const pageGames = games.slice(start, end);
+
+      pageGames.forEach(game => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${game.gameId}</td>
+          <td>${game.player1}</td>
+          <td>${game.player2}</td>
+          <td>${game.player3}</td>
+          <td>${game.winner}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+
+      const totalPages = Math.ceil(games.length / rowsPerPage);
+      document.getElementById("pageInfo").textContent = `Page ${page} of ${totalPages}`;
+
+      document.getElementById("prevBtn").disabled = page === 1;
+      document.getElementById("nextBtn").disabled = page === totalPages;
+    }
+
+    function prevPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        displayPage(currentPage);
+      }
+    }
+
+    function nextPage() {
+      const totalPages = Math.ceil(games.length / rowsPerPage);
+      if (currentPage < totalPages) {
+        currentPage++;
+        displayPage(currentPage);
+      }
+    }
+
+    window.onload = loadGames;
+  </script>
+</body>
+</html>

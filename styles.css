@@ -1,72 +1,142 @@
-
-/* styles.css */
-
-/* Basic Reset */
-body {
+/* Responsive, centered layout for full page */
+html, body {
   margin: 0;
+  padding: 0;
+  height: 100%;
   font-family: Arial, sans-serif;
   background-color: #9e93d8;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 75px;
-  border: 5px solid #ffffff;  /* White frame around the whole page */
-  box-sizing: border-box;  /* Include border in the total width and height */
-  border-radius: 15px;  /* Optional rounded corners */
+  box-sizing: border-box;
 }
 
-h1 {
-  color: #ffffff; /* White color for the heading */
-  font-size: 2.5em; /* Adjust the font size */
-  margin-bottom: 20px; /* Space below the heading */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  border: 5px solid #ffffff;
+  border-radius: 15px;
+  min-height: 100vh;
 }
 
 .container {
-  border: 5px solid #ffffff; /* Frame around the whole content */
-  padding: 20px;
-  border-radius: 15px; /* Optional rounded corners */
-  background-color: #35343b; /* Optional background color for the container */
+  width: 100%;
+  max-width: 800px;
+  background-color: #453b74;
+  padding: 30px;
+  border-radius: 15px;
+  box-sizing: border-box;
+  text-align: center;
 }
 
+h1, h2, h3, p {
+  color: white;
+  margin-bottom: 15px; 
+  display: flex;
+}
 
-/* Controls Section */
-#controls {
-  margin-bottom: 20px;
-  font-size: 1.2em;
-  font-weight: bold;
-  color:#ffffff;
-  border: 2px solid #ffffff; /* Frame around the controls */
+.button-group, h3, #startGameBtn {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Buttons */
+#generateLinkBtn, #startGameBtn, #viewHistoryBtn {
+  background: #1f224d;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 15px;
+  border: 2px solid #ffffff;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+#generateLinkBtn:hover, #startGameBtn:hover, #viewHistoryBtn:hover {
+  background: #2e3170;
+}
+
+/* Input fields */
+#playerInputs input {
+  display: block;
+  margin: 10px auto;
   padding: 10px;
-  border-radius: 8px; /* Optional rounded corners */
-  background-color: #453b74; /* Optional background color for the frame */
+  width: 90%;
+  max-width: 300px;
+  border-radius: 5px;
+  border: none;
+  font-size: 1em;
 }
 
-/* Hex Grid Container */
+#playerInputs {
+  margin-top: 20px;
+}
+
+/* Controls */
+#controls {
+  margin-top: 20px;
+  padding: 10px;
+  border: 2px solid #ffffff;
+  border-radius: 8px;
+  background-color: #453b74;
+  color: white;
+  text-align: center;
+}
+
+/* Game Over */
+#gameOverScreen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #1f224d;
+  color: white;
+  padding: 20px;
+  border-radius: 20px;
+  z-index: 100;
+  border: 2px solid #ffffff;
+  text-align: center;
+}
+
+#gameOverScreen button {
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #9e93d8;
+  color: #fff;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+#gameOverScreen button:hover {
+  background-color:#b4b7e0;
+  transform: scale(1.05);
+}
+
+/* Hex Grid */
 #hexGrid {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  border: 3px solid #ffffff; /* Frame around the hex grid */
   padding: 20px;
-  border-radius: 10px; /* Optional rounded corners */
-  background-color: #453b74; /* Optional background color for the frame */
-  transition: opacity 0.3s ease;
+  border: 3px solid #ffffff;
+  border-radius: 10px;
+  background-color: #453b74;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
 }
 
-.disabled-grid {
-  pointer-events: none;
-  opacity: 0.6; /* Optional visual cue */
-}
-
-/* Each Row of Hexagons */
 .hex-row {
   display: flex;
   justify-content: center;
   gap: 5px;
 }
 
-/* Hexagon Shape */
 .hexagon {
   width: 60px;
   height: 34.64px;
@@ -75,15 +145,14 @@ h1 {
   position: relative;
   cursor: pointer;
   display: flex;
-  align-items: center; /* Centers text vertically */
-  justify-content: center; /* Centers text horizontally */
-  font-size: 1.2em; /* Adjust text size */
-  font-weight: bold; /* Make the symbol bold */
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  font-weight: bold;
   transition: background-color 0.3s ease;
   text-align: center;
 }
 
-/* Create the top and bottom triangles */
 .hexagon::before,
 .hexagon::after {
   content: "";
@@ -101,10 +170,9 @@ h1 {
 
 .hexagon::after {
   top: 100%;
-  border-top: 17.32px solid ;
+  border-top: 17.32px solid #1f224d;
 }
 
-/* Hover Effect */
 .hexagon:hover {
   background-color: #b4b7e0;
 }
@@ -117,15 +185,12 @@ h1 {
   border-top-color: #b4b7e0;
 }
 
-/* Player Colors */
 .player1 {
   background-color: #96bbe3;
 }
-
 .player1::before {
   border-bottom-color: #96bbe3;
 }
-
 .player1::after {
   border-top-color: #96bbe3;
 }
@@ -133,11 +198,9 @@ h1 {
 .player2 {
   background-color: #b8e6c2;
 }
-
 .player2::before {
   border-bottom-color: #b8e6c2;
 }
-
 .player2::after {
   border-top-color: #b8e6c2;
 }
@@ -145,101 +208,33 @@ h1 {
 .player3 {
   background-color: #ebd8a2;
 }
-
 .player3::before {
   border-bottom-color: #ebd8a2;
 }
-
 .player3::after {
   border-top-color: #ebd8a2;
 }
 
-
-#gameOverScreen {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: #1f224d;
-  color: white;
-  padding: 20px;
-  border-radius: 20px;
-  text-align: center;
-  z-index: 100;
-   border: 2px solid #ffffff;
+/* Responsive Adjustments */
+@media screen and (max-width: 600px) {
+  .hexagon {
+    width: 40px;
+    height: 23px;
+  }
+  .hexagon::before, .hexagon::after {
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+  }
+  .hexagon::before {
+    border-bottom: 11.5px solid #1f224d;
+  }
+  .hexagon::after {
+    border-top: 11.5px solid #1f224d;
+  }
+  #hexGrid {
+    padding: 10px;
+  }
+  #gameOverScreen button {
+    padding: 8px 12px;
+  }
 }
-
-#gameOverScreen h3 {
-  color: #a5a7c7;
-  margin-bottom: 20px;
-}
-
-#gameOverScreen button {
-  padding: 10px 10px;
-  font-size: 16px;
-  background-color: #9e93d8;
-  color: #fff;
-  border: none;
-  border-radius: 15px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-#gameOverScreen button:hover {
-  background-color:#b4b7e0;
-  transform: scale(1.05);
-}
-
-#gameOverScreen button:active {
-  background-color: #b4b7e0;
-  transform: scale(0.98);
-}
-
-
-
-/* below new code */
-
-/* Inner card area */
-#setupPage > div {
-  background-color: #453b74;
-  padding: 10px;
-  border-radius: 10px;
-  width: 100%;
-  text-align: center;
-}
-
-#setupPage h1 {
-  color: white;
-  margin-bottom: 20px;
-}
-
-#setupPage p {
-  color: white;
-  margin-bottom: 10px;
-}
-
-/* Inputs */
-#playerInputs input {
-  display: block;
-  margin: 5px auto;
-  padding: 8px;
-  width: 80%;
-  border-radius: 5px;
-  border: none;
-}
-
-/* Buttons */
-#generateLinkBtn, #startGameBtn {
-  background: #1f224d;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 15px;
-  border: 2px solid #ffffff;
-  cursor: pointer;
-  margin-top: 15px;
-}
-
-#generateLinkBtn:hover, #startGameBtn:hover {
-  background: #2e3170;
-}
-

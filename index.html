@@ -18,7 +18,8 @@
          <h2>Welcome to the Hexagonal Game!</h2>
          <p>To start a new game, click the button below to generate a unique game link.</p>
          <h2>Start New Game</h2>
-         <button id="generateLinkBtn">Generate Game Link</button>
+         <button id="generateLinkBtn">Generate Game Link</button> 
+         <button id="viewHistoryBtn" onclick="viewHistory()">View Game History</button> 
          <p id="gameCodeDisplay" style="font-weight: bold; margin-top: 10px;"></p>
 
         <div id="playerInputs" style="display: none; margin-top: 20px;">
@@ -98,8 +99,14 @@
 
    <div id="turnText"></div>
 </div>
-    
 
+
+<script>
+  function viewHistory() {
+    window.location.href = 'history.html';
+  }
+</script>
+    
   <script src="script.js"></script>
 </body>
 </html>
