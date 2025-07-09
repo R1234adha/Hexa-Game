@@ -31,16 +31,20 @@ body {
 
 h1, h2, h3, p {
   color: white;
-  margin-bottom: 15px; 
+  margin-bottom: 10px; 
   display: flex;
 }
 
-.button-group, h3, #startGameBtn {
+.button-group, h3 {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px;
+  gap: 5px;
   margin-top: 20px;
+}
+
+#startGameBtn{
+  margin-left: 200px;
 }
 
 /* Buttons */
@@ -60,7 +64,7 @@ h1, h2, h3, p {
 
 /* Input fields */
 #playerInputs input {
-  display: block;
+  display: flex;
   margin: 10px auto;
   padding: 10px;
   width: 90%;
@@ -68,6 +72,7 @@ h1, h2, h3, p {
   border-radius: 5px;
   border: none;
   font-size: 1em;
+  
 }
 
 #playerInputs {
