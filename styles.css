@@ -240,7 +240,7 @@ h1, h2, h3, p {
 }
 
 /* Responsive Adjustments */
-@media screen and (max-width: 600px) {
+/* @media screen and (max-width: 600px) {
   .hexagon {
     width: 40px;
     height: 23px;
@@ -259,6 +259,82 @@ h1, h2, h3, p {
   .hexagon::after {
     border-top: 11.5px solid #1f224d;
   }
+} */
+
+@media screen and (max-width: 300px) {
+  .container {
+    padding: 20px;
+  }
+
+  .inner-container {
+    padding: 30px;
+  }
+
+  #hexGrid {
+    padding: 10px;
+    max-width: 100%;
+    transform: scale(0.9);
+    transform-origin: top center;
+  }
+
+  .hexagon {
+    width: 40px;
+    height: 23px;
+    font-size: 0.9em;
+  }
+
+  .hexagon::before,
+  .hexagon::after {
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+  }
+
+  .hexagon::before {
+    border-bottom: 11.5px solid #1f224d;
+  }
+
+  .hexagon::after {
+    border-top: 11.5px solid #1f224d;
+  }
+
+  #generateLinkBtn,
+  #startGameBtn,
+  #viewHistoryBtn {
+    padding: 8px 15px;
+    font-size: 0.9em;
+  }
+
+  #playerInputs input {
+    width: 100%;
+  }
+
+  #controls {
+    padding: 8px;
+    font-size: 0.9em;
+  }
+
+  #gameOverScreen {
+    width: 90%;
+    padding: 15px;
+  }
+
+  #gameOverScreen button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  h1, h2, h3, p {
+    font-size: 1em;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  #startGameBtn {
+    margin-left: 0;
+  }
 }
+
 
 
